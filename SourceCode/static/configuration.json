@@ -1,0 +1,15 @@
+{
+    "githubUsername": "BeanWei",
+    "blogTitle": "Bean.Wei",
+    "blogDescribe": "欢迎来到Bean的个人博客。",
+    "htmlTitle": "Bean的博客",
+    "fontColor": "#ffffff",
+    "useBackgroundImage": false,
+    "backgroundColorLeft": "#2690F9",
+    "backgroundColorRight": "#FC2D2D",
+    "audioUrl": "http://f2.htqyy.com/play7/1621/mp3/2",
+    "mini": false,
+    "webSites":[
+        {"name":"v2ex" , "url":"https://www.v2ex.com/member/BeanWei"}
+    ]
+}
