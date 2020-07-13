@@ -1,4 +1,4 @@
-[BeanWei Blog](beanwei.github.io/)
+[BeanWei Blog](https://beanwei.github.io/)
 ================================
 
-## [RichTextNice](beanwei.github.io/rtnice/)
+## [RichTextNice](https://beanwei.github.io/rtnice/)
