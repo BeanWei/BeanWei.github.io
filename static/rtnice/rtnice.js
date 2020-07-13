@@ -64,7 +64,7 @@ var RichTextNiceService = (function () {
       var numbers = [];
       for (let i = 0; i < lines.length - 1; i++) {
         codeLines.push(`<code class="${className}"><span class="code-snippet_outer">` + (lines[i] || "<br>") + "</span></code>");
-        numbers.push("<li></li>");
+        numbers.push(`<li>${i+1}</li>`);
       }
       return (
         '<section class="code-snippet__fix code-snippet__js">' +
@@ -147,7 +147,8 @@ var RichTextNiceService = (function () {
       '.code-snippet__fix': `word-wrap: break-word !important; font-size: 14px; margin: 10px 0; display: block; color: #333; position: relative; background-color: rgba(0,0,0,0.03); border: 1px solid #f0f0f0; border-radius: 2px; display: flex; line-height: 20px;`,
       '.code-snippet__fix pre': `margin-bottom: 10px; margin-top: 0px;`,
       '.code-snippet__fix .code-snippet__line-index': `counter-reset: line; flex-shrink: 0; height: 100%; padding: 1em; list-style-type: none; padding: 16px; margin: 0;`,
-      '.code-snippet__fix .code-snippet__line-index li': `list-style-type: none; text-align: right; line-height: 26px; color: black; margin: 0;`,
+      '.code-snippet__fix .code-snippet__line-index li': `list-style-type: none; text-align: right; line-height: 26px; color: rgba(0,0,0,0.3); margin: 0;`,
+      // TODO: Support counter-increment
       '.code-snippet__fix .code-snippet__line-index li::after': `min-width: 1.5em; text-align: right; left: -2.5em; counter-increment: line; content: counter(line); display: inline; color: rgba(0,0,0,0.3);`,
       '.code-snippet__fix pre': `overflow-x: auto; padding: 16px; padding-left: 0; white-space: normal; flex: 1; -webkit-overflow-scrolling: touch;`,
       '.code-snippet__fix code': `text-align: left; font-size: 14px; display: block; white-space: pre; display: flex; position: relative; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; padding: 0px;`
@@ -390,14 +391,9 @@ var RichTextNiceService = (function () {
         cssSelector = cssSelector.join('');
         els = node.querySelectorAll(cssSelector);
         if (els.length) {
-          els.forEach((el, idx) => {
+          els.forEach((el) => {
             var childSpan = document.createElement('span');
             childSpan.setAttribute('style', style);
-            // TODO: may have better way
-            if (style.includes('counter-increment')) {
-              idxText = document.createTextNode(String(idx + 1));
-              childSpan.appendChild(idxText);
-            }
             el.parentNode.replaceChild(childSpan, el);
             childSpan.appendChild(el);
           });
@@ -408,13 +404,9 @@ var RichTextNiceService = (function () {
         cssSelector = cssSelector.join('');
         els = node.querySelectorAll(cssSelector);
         if (els.length) {
-          els.forEach((el, idx) => {
+          els.forEach((el) => {
             var childSpan = document.createElement('span');
             childSpan.setAttribute('style', style);
-            // TODO: may have better way
-            if (style.includes('counter-increment')) {
-              childSpan.appendChild(document.createTextNode(String(idx + 1)));
-            }
             el.appendChild(childSpan);
           });
         }
@@ -724,27 +716,11 @@ var RichTextNiceService = (function () {
       node = new Node(node);
 
       var replacement = '';
-      // console.log(node.nodeType, node, node.nodeValue)
       if (node.nodeType === 3) {
         replacement = node.parentNode && node.parentNode.nodeName === "X-RTNICE" ? `<p>${node.nodeValue}</p>` : node.nodeValue;
       } else if (node.nodeType === 1) {
           replacement = replacementForNode.call(self, node);
       }
-      // if (node.nodeType === 3) {
-      //   if (node.isCode) {
-      //     replacement = node.nodeValue
-      //   } else if (node.parentNode && node.parentNode.nodeName === "X-RTNICE") {
-      //     replacement = `<p>${node.nodeValue}</p>`
-      //   } else {
-      //     replacement = node.nodeValue
-      //   }
-      // }
-      
-      // if (replacement === '' && node.nodeType === 1) {
-      //   replacement = replacementForNode.call(self, node)
-      // } else {
-      //   // console.log(node.nodeType, node, node.innerHTML, node.outerHTML)
-      // }
 
       return output + replacement
     }, '')
